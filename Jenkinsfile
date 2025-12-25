@@ -68,6 +68,6 @@ def getSonarPath(){
 
 def getDockerPath(){
   def DockerHome= tool name: 'docker-inst', type: 'dockerTool'
-  return DockerHome
+  return DockerHome
 }
 
