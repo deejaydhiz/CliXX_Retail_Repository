@@ -50,9 +50,9 @@ pipeline {
             echo "Docker image exists, killing it"
             docker stop clixx-cont
             docker rm clixx-cont
-            docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION
+            docker run --name clixx-cont -p 80:80 -d clixx-image:$VERSION
           else
-            docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION
+            docker run --name clixx-cont -p 80:80 -d clixx-image:$VERSION
           fi
         '''
       }
@@ -70,5 +70,3 @@ def getDockerPath(){
   def DockerHome= tool name: 'docker-inst', type: 'dockerTool'
   return DockerHome
 }
-
-
