@@ -1,3 +1,4 @@
+---
   - name: "CliXX DB Deployment Ansible Playbook"
     hosts: localhost
     connection: local
@@ -23,4 +24,4 @@
            command: modify
            instance_name: '{{ instance_id }}'
            region: us-east-1
-           vpc_security_groups: '{{ security_group }}'
+           vpc_security_groups: '{{ security_group }}''
