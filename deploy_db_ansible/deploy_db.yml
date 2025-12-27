@@ -15,10 +15,9 @@
         db_instance_identifier: "{{ instance_id }}"
         db_snapshot_identifier: "{{ db_snapshot }}"
         engine: mysql
-        instance_class: db.t2.small
+        db_instance_class: db.t2.small
         region: us-east-1
         wait: yes
-        wait_timeout: 1200
 
     - name: Modify to add Security Group
       amazon.aws.rds_instance:
