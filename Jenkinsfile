@@ -120,7 +120,7 @@ pipeline {
         sh '''
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository
           docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
-          docker tag clixx-image:latest 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
+          docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:latest
           docker push 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
         '''
       }
