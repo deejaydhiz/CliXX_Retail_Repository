@@ -76,14 +76,14 @@ pipeline {
         script {
           def userInput = input(id: 'confirm', message: 'Is DB creation complete?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Complete?', name: 'confirm'] ])
         }
+        withCredentials([string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'), string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'DB_NAME', variable: 'DB_NAME'), string(credentialsId: 'SERVER_INSTANCE', variable: 'SERVER_INSTANCE')]){
         sh '''
-        USERNAME='wordpressuser'
-        PASSWORD='W3lcome123'
-        DBNAME='wordpressdb'
+        USERNAME='${DB_USERNAME}'
+        PASSWORD='${DB_PASSWORD}'
+        DBNAME='${DB_NAME}'
         SERVER_IP=$(curl -s ipv4.icanhazip.com)
-        SERVER_INSTANCE='wordpressdbclixxjenkins.citiwqs2c4bz.us-east-1.rds.amazonaws.com'
-        echo "use wordpressdb;" >> $WORKSPACE/db.setup
-        echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_value LIKE 'http%'; " >> $WORKSPACE/db.setup
+        SERVER_INSTANCE='${SERVER_INSTANCE}'
+        echo "use ${DB_NAME};" >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'home'; " >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'siteurl'; " >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'ping_sites'; " >> $WORKSPACE/db.setup
@@ -91,6 +91,7 @@ pipeline {
 
         mysql -u $USERNAME --password=$PASSWORD -h $SERVER_INSTANCE  -D $DBNAME < $WORKSPACE/db.setup
         '''
+        }
       }
     }
 
@@ -117,12 +118,15 @@ pipeline {
         script {
           def userInput = input(id: 'confirm', message: 'Push Image To ECR?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Push to ECR?', name: 'confirm'] ])
         }
+        withCredentials([string(credentialsId: 'ECR_USERNAME', variable: 'ECR_USERNAME'), string(credentialsId: 'ECR_REPO', variable: 'ECR_REPO'), ]){
         sh '''
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository
-          docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
-          docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:latest
-          docker push 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
+          aws ecr get-login-password --region us-east-1 | docker login --username ${ECR_USERNAME} --password-stdin ${ECR_REPO}
+          docker tag clixx-image:$VERSION ${ECR_REPO}:clixx-image-$VERSION
+          docker tag clixx-image:$VERSION ${ECR_REPO}:latest
+          docker push ${ECR_REPO}:clixx-image-$VERSION
+          docker push ${ECR_REPO}:latest
         '''
+        }
       }
     }
   }
