@@ -46,7 +46,7 @@ pipeline {
     stage ('Starting Docker Image') {
       steps {
         sh '''
-          if ( docker ps|grep clixx-cont ) then
+          if ( docker ps -a | grep clixx-cont ) then
             echo "Docker image exists, killing it"
             docker stop clixx-cont
             docker rm clixx-cont
