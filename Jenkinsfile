@@ -78,11 +78,11 @@ pipeline {
         }
         withCredentials([string(credentialsId: 'DB_USERNAME', variable: 'DB_USERNAME'), string(credentialsId: 'DB_PASSWORD', variable: 'DB_PASSWORD'), string(credentialsId: 'DB_NAME', variable: 'DB_NAME'), string(credentialsId: 'SERVER_INSTANCE', variable: 'SERVER_INSTANCE')]){
         sh '''
-        USERNAME='${DB_USERNAME}'
-        PASSWORD='${DB_PASSWORD}'
-        DBNAME='${DB_NAME}'
+        USERNAME=${DB_USERNAME}
+        PASSWORD=${DB_PASSWORD}
+        DBNAME=${DB_NAME}
         SERVER_IP=$(curl -s ipv4.icanhazip.com)
-        SERVER_INSTANCE='${SERVER_INSTANCE}'
+        SERVER_INSTANCE=${SERVER_INSTANCE}
         echo "use ${DB_NAME};" >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'home'; " >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'siteurl'; " >> $WORKSPACE/db.setup
