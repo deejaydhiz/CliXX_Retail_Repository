@@ -3,7 +3,7 @@
   hosts: localhost
   connection: local
   vars:
-    ansible_python_interpreter: /usr/bin/python3.9
+    # ansible_python_interpreter: /usr/bin/python3.9
     instance_id: wordpressdbclixxjenkins
     db_snapshot: wordpressdbclixxsnap
     security_group: sg-0029e71213e91bfff
