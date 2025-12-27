@@ -84,6 +84,11 @@ pipeline {
         SERVER_INSTANCE='wordpressdbclixxjenkins.citiwqs2c4bz.us-east-1.rds.amazonaws.com'
         echo "use wordpressdb;" >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_value LIKE 'http%'; " >> $WORKSPACE/db.setup
+        echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'home'; " >> $WORKSPACE/db.setup
+        echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'siteurl'; " >> $WORKSPACE/db.setup
+        echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'ping_sites'; " >> $WORKSPACE/db.setup
+        echo "UPDATE wp_options SET option_value = '$SERVER_IP' WHERE option_name = 'open_shop_header_retina_logo'; " >> $WORKSPACE/db.setup
+
         mysql -u $USERNAME --password=$PASSWORD -h $SERVER_INSTANCE  -D $DBNAME < $WORKSPACE/db.setup
         '''
       }
