@@ -89,37 +89,37 @@ pipeline {
       }
     }
 
-    stage ('Tear Down CliXX Docker Image and Database') {
-      steps {
-        script {
-          def userInput = input(id: 'confirm', message: 'Tear Down Environment?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down Environment?', name: 'confirm'] ])
-        }
-        sh '''
-          python3 -m venv python3-virtualenv
-          source python3-virtualenv/bin/activate
-          python3 --version
-          pip3 install boto3 botocore boto
-          ansible-playbook $WORKSPACE/deploy_db_ansible/delete_db.yml
-          deactivate
-          docker stop clixx-cont
-          docker rm  clixx-cont
-        '''
-      }
-    }
+    // stage ('Tear Down CliXX Docker Image and Database') {
+    //   steps {
+    //     script {
+    //       def userInput = input(id: 'confirm', message: 'Tear Down Environment?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down Environment?', name: 'confirm'] ])
+    //     }
+    //     sh '''
+    //       python3 -m venv python3-virtualenv
+    //       source python3-virtualenv/bin/activate
+    //       python3 --version
+    //       pip3 install boto3 botocore boto
+    //       ansible-playbook $WORKSPACE/deploy_db_ansible/delete_db.yml
+    //       deactivate
+    //       docker stop clixx-cont
+    //       docker rm clixx-cont
+    //     '''
+    //   }
+    // }
 
-    stage ('Log Into ECR and push the newly created Docker') {
-      steps {
-        script {
-          def userInput = input(id: 'confirm', message: 'Push Image To ECR?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Push to ECR?', name: 'confirm'] ])
-        }
-        sh '''
-          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository
-          docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
-          docker tag clixx-image:latest 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
-          docker push 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
-        '''
-      }
-    }
+    // stage ('Log Into ECR and push the newly created Docker') {
+    //   steps {
+    //     script {
+    //       def userInput = input(id: 'confirm', message: 'Push Image To ECR?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Push to ECR?', name: 'confirm'] ])
+    //     }
+    //     sh '''
+    //       aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository
+    //       docker tag clixx-image:$VERSION 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
+    //       docker tag clixx-image:latest 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
+    //       docker push 055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:clixx-image-$VERSION
+    //     '''
+    //   }
+    // }
   }
 }
 
