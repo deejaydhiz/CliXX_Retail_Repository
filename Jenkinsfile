@@ -19,7 +19,10 @@ pipeline {
           withSonarQubeEnv('SonarQubeScanner') {
             sh " ${scannerHome}/bin/sonar-scanner \
               -Dsonar.projectKey=CliXX-App-Deji \
-              -Dsonar.login=${SONAR_TOKEN} "
+              -Dsonar.login=${SONAR_TOKEN} \
+              -Dsonar.projectVersion=${VERSION} \
+              -Dsonar.exclusions="wp-content/**/*, wp-includes/**/*, wp-admin/**/*, wordpress/**/*" \
+            "
           }
         }
       }
