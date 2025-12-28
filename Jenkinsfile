@@ -9,20 +9,20 @@ pipeline {
   }
 
   stages {
-    stage ('Sonarcube Scan') {
+    stage ('SonarQube Scan') {
       steps {
         script {
           scannerHome = tool 'sonarqube_v4.7'
         }
-        // use the withCredentials() Jenkins function to introduce the SONAR_TOKEN secret 
         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
           withSonarQubeEnv('SonarQubeScanner') {
-            sh " ${scannerHome}/bin/sonar-scanner \
+            sh """
+              ${scannerHome}/bin/sonar-scanner \
               -Dsonar.projectKey=CliXX-App-Deji \
-              -Dsonar.login=${SONAR_TOKEN} \
+              -Dsonar.login='${SONAR_TOKEN}' \
               -Dsonar.projectVersion=${VERSION} \
-              -Dsonar.exclusions="wp-content/**/*, wp-includes/**/*, wp-admin/**/*, wordpress/**/*"
-            "
+              -Dsonar.exclusions="wp-content/**/*,wp-includes/**/*,wp-admin/**/*,wordpress/**/*"
+            """
           }
         }
       }
