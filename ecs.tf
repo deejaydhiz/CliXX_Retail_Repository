@@ -13,6 +13,7 @@ provider "aws" {
 
 resource "aws_ecs_cluster" "clixx_ecs_cluster" {
   name = "clixx-ecs-cluster"
+  
 }
 
 resource "aws_ecs_task_definition" "clixx_task" {
@@ -25,7 +26,7 @@ resource "aws_ecs_task_definition" "clixx_task" {
   container_definitions = jsonencode([
     {
       name      = "clixx-cont"
-      image     = ":latest"
+      image     = "055081916963.dkr.ecr.us-east-1.amazonaws.com/clixx-repository:latest"
       essential = true
       portMappings = [
         {
@@ -46,7 +47,7 @@ resource "aws_ecs_service" "clixx_service" {
 
   network_configuration {
     subnets         = ["subnet-xxxxxxxx", "subnet-yyyyyyyy"] # Replace with your subnet IDs
-    security_groups = ["sg-0029e71213e91bfff"] # Replace with your security group ID
+    security_groups = ["sg-zzzzzzzz"] # Replace with your security group ID
     assign_public_ip = true
   }
 }
