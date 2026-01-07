@@ -1,2 +1,3 @@
-FROM wordpress:php7.1-apache
+# Use the latest stable version of WordPress/PHP (e.g., 8.3)
+FROM wordpress:6.9.0-php8.3-apache
 COPY . /var/www/html

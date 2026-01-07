@@ -1,0 +1,4 @@
+FROM wordpress:php7.1-apache
+COPY . /var/www/html
+# upgrade and clean up unnecessary linux headers and images to reduce vulnerabilities
+RUN apt-get update && apt-get purge -y linux-headers-* linux-image-* && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
