@@ -21,3 +21,5 @@
           - "{{ security_group }}"
         region: us-east-1
         wait: yes
+      async: 3600
+      poll: 30
