@@ -21,4 +21,3 @@
           - "{{ security_group }}"
         region: us-east-1
         wait: yes
-        wait_timeout: 1200
