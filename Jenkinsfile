@@ -85,11 +85,11 @@ pipeline {
         PASSWORD=${DB_PASSWORD}
         DBNAME=${DB_NAME}
         SERVER_IP=$(curl -s ipv4.icanhazip.com)
-        SERVER_INSTANCE=${SERVER_INSTANCE}
+        DB_INSTANCE=${SERVER_INSTANCE}
         echo "use ${DB_NAME};" >> $WORKSPACE/db.setup
         echo "UPDATE wp_options SET option_value = 'http://$SERVER_IP' WHERE option_value like '%NLB%'; " >> $WORKSPACE/db.setup
 
-        mysql -u $USERNAME --password=$PASSWORD -h $SERVER_INSTANCE  -D $DBNAME < $WORKSPACE/db.setup
+        mysql -u $USERNAME --password=$PASSWORD -h $DB_INSTANCE  -D $DBNAME < $WORKSPACE/db.setup
         '''
         }
       }
