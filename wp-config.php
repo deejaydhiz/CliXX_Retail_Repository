@@ -79,6 +79,9 @@ $table_prefix = 'wp_';
  */
 define( 'WP_DEBUG', false );
 
+define('WP_HOME', 'http://ecs.deji-stack.com');
+define('WP_SITEURL', 'http://ecs.deji-stack.com');
+
 /* That's all, stop editing! Happy publishing. */
 
 /** Absolute path to the WordPress directory. */
